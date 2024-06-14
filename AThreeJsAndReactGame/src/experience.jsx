@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Center, Environment, OrbitControls } from '@react-three/drei';
 import Table from './components/Table';
 import Ball from './components/Ball';
+import { Physics } from '@react-three/rapier';
 
 const Experience = () => {
   return (
@@ -14,10 +15,14 @@ const Experience = () => {
 
       <OrbitControls makeDefault />
 
-      <Center>
-        <Table position={[0, 0, 0]} rotation={[0, -(Math.PI / 2), 0]}/>
-        <Ball position={[0.25, 1.5, 0]} />
-      </Center>
+      <Physics debug>
+        <Center>
+          <Table position={[0, 0, 0]} rotation={[0, -(Math.PI / 2), 0]}/>
+          <Ball position={[0.25, 1.5, 0]} />
+        </Center>
+      </Physics>
+
+
     </>
   );
 }
