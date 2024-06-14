@@ -1,18 +1,28 @@
 import React from 'react';
 import { MeshTransmissionMaterial, useGLTF } from '@react-three/drei';
+import { RigidBody } from '@react-three/rapier';
+import { useRef } from 'react';
 
 const Table = (props) => {
+
+  const controlA = useRef(null);
+  const controlD = useRef(null);
+
   const { nodes, materials } = useGLTF('/models/table.gltf');
 
   return (
     <group {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Table.geometry}
-        material={materials.Wood}
-        position={[0, 0.068, 0]}
-      />
+
+      <RigidBody type="fixed" colliders="trimesh"  restitution={0.6} friction={0}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Table.geometry}
+          material={materials.Wood}
+          position={[0, 0.068, 0]}
+        />
+      </RigidBody>
+
       <mesh
         castShadow
         receiveShadow
@@ -21,6 +31,7 @@ const Table = (props) => {
         position={[4.135, 0.092, -0.003]}
       />
       <mesh
+        ref={controlA}
         castShadow
         receiveShadow
         geometry={nodes.Control_A.geometry}
@@ -73,6 +84,8 @@ const Table = (props) => {
         material={materials.Black}
         position={[2.257, -0.047, 0]}
       />
+
+      <RigidBody type="fixed" colliders="trimesh">
       <mesh
         castShadow
         receiveShadow
@@ -101,14 +114,18 @@ const Table = (props) => {
         material={materials.Red}
         position={[-1.686, 1.46, 0]}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Glass.geometry}
-        position={[0.497, 1.54, 0.005]}
-      >
+      </RigidBody>
+      <RigidBody type="fixed" colliders="trimesh"  restituion={0.2} friction={0}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Glass.geometry}
+          position={[0.497, 1.54, 0.005]}
+        >
         <MeshTransmissionMaterial anisotropy={0.1} chromaticAberration={0.04} distortionScale={0} temporalDistortion={0} />
-      </mesh>
+        </mesh>
+      </RigidBody>
+        
     </group>
   )
 }
